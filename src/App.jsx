@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import FoodItems from "./components/FoodItems";
@@ -7,18 +8,21 @@ import ErrorMessage from "./components/ErrorMessage";
 import FoodInput from "./components/FoodInput";
 
 function App() {
-  let foodItems = [
-    "Organic Yogurt",
-    "Dark Green Vegetables",
-    "Whole Grains",
-    "Beans and Lentils",
-    "Flaxseed, Nuts and Seeds",
-  ];
+  const [foodItems, setFoodItems] = useState([]);
+
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      let newFoodItem = e.target.value;
+      let newItem = [...foodItems, newFoodItem];
+      setFoodItems(newItem);
+      e.target.value = "";
+    }
+  };
 
   return (
     <Card>
       <Heading />
-      <FoodInput />
+      <FoodInput handleKey={onKeyDown} />
       <ErrorMessage items={foodItems} />
       <FoodItems items={foodItems} />
     </Card>

@@ -1,19 +1,25 @@
-import styles from "./FoodItems.module.css";
+import { useState } from "react";
+import Item from "./Item";
 
-let FoodItems = (props) => {
+const FoodItems = ({ items }) => {
+  let [activeItems, setActiveItems] = useState([]);
+
+  let onBuyButton = (item, event) => {
+    let newItems = [...activeItems, item];
+    setActiveItems(newItems);
+  };
+
   return (
-    <>
-      <ul className={`${styles.list} list-group`}>
-        {props.items.map((item) => (
-          <li key={Math.random()} className={`list-group-item`}>
-            {item}
-            <button type="button" className={`btn btn-info ${styles.button}`}>
-              BUY
-            </button>
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul className="list-group">
+      {items.map((item) => (
+        <Item
+          key={item}
+          foodItem={item}
+          bought={activeItems.includes(item)}
+          handleBuyButton={(event) => onBuyButton(item, event)}
+        ></Item>
+      ))}
+    </ul>
   );
 };
 
